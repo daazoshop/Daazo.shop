@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Enhanced E-Commerce Account</title>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        a{
+        text-decoration:none;
+        
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5e6ea, #ffd1dc);
+            min-height: 100vh;
+           
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            background: #fff;
+            
+            padding:15px;
+            height:100vh;
+            
+            box-shaow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /* Sign-up Form Styling */
+        .signup-form {
+            width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            padding:10px;
+            border-radius: 15px;
+            
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 54, 94, 0.1), transparent);
+            transform: rotate(45deg);
+        }
+
+        .signup-form h2 {
+            text-align: center;
+            color: #f5365e;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-in;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .signup-form .input-group {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .signup-form .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            
+            color: #f5365e;
+            font-size: 16px;
+        }
+
+        .signup-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .signup-form input, .signup-form select {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .signup-form input:focus, .signup-form select:focus {
+            border-color: #f5365e;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(245, 54, 94, 0.2);
+            outline: none;
+        }
+
+        .signup-form .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .signup-form .checkbox input {
+            width: auto;
+            margin: 0;
+            
+        }
+
+        .signup-form .checkbox label {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .signup-form button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .signup-form button[type="submit"] {
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(245, 54, 94, 0.3);
+        }
+
+        .signup-form button[type="submit"]:hover {
+            background: linear-gradient(135deg, #e31b4d, #e55f12);
+            transform: translateY(-2px);
+            
+        }
+
+        .signup-form button[type="reset"] {
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+            position: relative;
+        }
+
+        .signup-form button[type="reset"]:hover {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            transform: translateY(-2px);
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0e6ea;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd1dc, #f5e6ea);
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(245, 54, 94, 0.3);
+        }
+
+        .profile-header .name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f5365e;
+            text-transform: uppercase;
+        }
+
+        .profile-header .phone {
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* Section Title */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #f5365e;
+        }
+
+        .section-title a {
+            color: #f57224;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 6px 12px;
+            background: #fff;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(245, 114, 36, 0.2);
+        }
+
+        .section-title a:hover {
+            background: #f57224;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Order Status */
+        .order-status {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            text-align: center;
+            padding: 8px;
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .order-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(245, 54, 94, 0.2);
+        }
+
+        .order-item i {
+            font-size: 24px;
+            color: #f5365e;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .order-item:hover i {
+            color: #e31b4d;
+        }
+
+        .order-item span {
+            display: block;
+            font-size: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(245, 54, 94, 0.2);
+        }
+
+        .card i {
+            font-size: 24px;
+            color: #f5365e;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 12px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        /* User Details */
+        .user-details {
+            margin-top: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            border-radius: 10px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-details h3 {
+            color: #f5365e;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer .footer-logo {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        footer .footer-socials a {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 8px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        footer .footer-socials a:hover {
+            transform: scale(1.2);
+            color: #ffd1dc;
+        }
+
+        footer .footer-copyright {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            margin-top: 15px;
+            text-align: center;
+            position:fixed;
+            top:10px;
+            right:20px;
+        }
+
+        .logout-btn button {
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn button:hover {
+            background: linear-gradient(135deg, #e31b4d, #e55f12);
+            transform: translateY(-2px);
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f5365e;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+           
+               
+            
+
+            .signup-form {
+                padding: 15px
+            }
+
+            .signup-form h2 {
+                font-size: 20px;
+            }
+
+            .signup-form input, .signup-form select {
+                padding: 8px 8px 8px 30px;
+                font-size: 12px;
+            }
+
+            .signup-form .input-group i {
+                font-size: 14px;
+            }
+
+            .signup-form label {
+                font-size: 12px;
+            }
+
+            .signup-form button {
+                width: 48%;
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .profile-header img {
+                width: 45px;
+                height: 45px;
+            }
+
+            .profile-header .name {
+                font-size: 16px;
+            }
+
+            .profile-header .phone {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 14px;
+            }
+
+            .section-title a {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
+
+            .order-item i {
+                font-size: 24px;
+            }
+
+            .order-item span {
+                font-size: 12px;
+                color:#999;
+            }
+
+            .card i {
+                font-size: 22px;
+            }
+
+            .card p {
+                font-size: 10px;
+            }
+
+            .user-details h3 {
+                font-size: 16px;
+            }
+
+            .user-details p {
+                font-size: 12px;
+            }
+
+            footer .footer-logo {
+                font-size: 28px;
+            }
+
+            footer .footer-socials a {
+                font-size: 16px;
+                margin: 0 6px;
+            }
+
+            footer .footer-copyright {
+                font-size: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+    <!-- Loading Animation -->
+    <div class="loading" id="loading"></div>
+
+    <!-- Sign-up Form (Initially Hidden) -->
+    <div class="signup-form" id="signupForm">
+        <h2>Sign Up</h2>
+        <form id="signupFormData">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required pattern="[A-Za-z\s]+" title="Name should only contain letters and spaces">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-phone"></i>
+                <label for="number">Phone Number</label>
+                <input type="tel" id="number" name="number" required pattern="[0-9]{11}" title="Phone number should be 11 digits">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="6" title="Password should be at least 6 characters long">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <label for="division">Division</label>
+                <select id="division" name="division" required>
+                    <option value="">Select Division</option>
+                    <option value="Dhaka">Dhaka</option>
+                    <option value="Chittagong">Chittagong</option>
+                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Khulna">Khulna</option>
+                    <option value="Barisal">Barisal</option>
+                    <option value="Sylhet">Sylhet</option>
+                    <option value="Rangpur">Rangpur</option>
+                    <option value="Mymensingh">Mymensingh</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-city"></i>
+                <label for="district">District</label>
+                <input type="text" id="district" name="district" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-map"></i>
+                <label for="upazilla">Upazilla</label>
+                <input type="text" id="upazilla" name="upazilla" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-home"></i>
+                <label for="village">Village</label>
+                <input type="text" id="village" name="village" required>
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" id="agreement" name="agreement" required>
+                <label for="agreement">I agree to the terms and conditions</label>
+            </div>
+
+            <div style="display: flex; justify-content: space-between;">
+                <button type="submit">Sign Up</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div class="container" id="mainContent" style="display: none;">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="https://badhonsworld.com/_next/image?url=%2Fimages%2Fmale.jpeg&w=128&q=75" alt="Profile Picture">
+            <div>
+                <div class="name" id="userName">Sahrier Sifat</div>
+                <div class="phone" id="userPhone">01913305107</div>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="section-title">
+            <span>Features </span>
+            <a href="orders.html">View All Orders</a>
+        </div>
+
+        <div class="order-status">
+            <a href="orders.html" ><div class="order-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Your order</span>
+            </div></a>
+            <a href="user-info.html" ><div class="order-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Your details</span>
+            </div></a>
+            <a href="feedback.html" ><div class="order-item">
+                <i class="fas fa-star"></i>
+                <span>Feedback</span>
+            </div></a>
+            <a href="merchant.html" ><div class="order-item">
+                <i class="fas fa-user-plus"></i>
+                <span>Merchant registration</span>
+            </div></a>
+        </div>
+
+        <div class="cards">
+            <a href="#" ><div class="card">
+                <i class="fab fa-whatsapp"></i>
+                <p>WhatsApp</p>
+            </div></a>
+            <a href="#" ><div class="card">
+                <i class="fab fa-facebook-messenger"></i>
+                <p>Messenger</p>
+            </div></a>
+        </div>
+        <br>
+
+        <!-- Cards Section -->
+        <div class="cards">
+            <a href="free-delivery.html" ><div class="card">
+                <i class="fas fa-shipping-fast"></i>
+                <p>Free Delivery</p>
+            </div></a>
+           <a href="rules.html" > <div class="card">
+                <i class="fas fa-shield-alt"></i>
+                <p>Privacy policy</p>
+            </div></a>
+        </div>
+
+        <!-- User Details Display -->
+        <div class="user-details">
+            <h3>Default delivery address </h3>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>Division:</strong> <span id="userDivision"></span></p>
+            <p><strong>District:</strong> <span id="userDistrict"></span></p>
+            <p><strong>Upazilla:</strong> <span id="userUpazilla"></span></p>
+            <p><strong>Village:</strong> <span id="userVillage"></span></p>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="logout-btn">
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Footer with Inline CSS -->
+    <footer id="footer" style="display: none;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="footer-logo">Dazoo</div>
+            <div class="footer-socials">
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-copyright">© 2025 Daazo. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // DOM Elements
+        const signupForm = document.getElementById('signupForm');
+        const mainContent = document.getElementById('mainContent');
+        const footer = document.getElementById('footer');
+        const signupFormData = document.getElementById('signupFormData');
+        const userName = document.getElementById('userName');
+        const userPhone = document.getElementById('userPhone');
+        const userEmail = document.getElementById('userEmail');
+        const userDivision = document.getElementById('userDivision');
+        const userDistrict = document.getElementById('userDistrict');
+        const userUpazilla = document.getElementById('userUpazilla');
+        const userVillage = document.getElementById('userVillage');
+        const loading = document.getElementById('loading');
+
+        // Check if user is logged in (using localStorage)
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        
+        if (loggedInUser) {
+            // User is logged in, show main content and footer
+            signupForm.style.display = 'none';
+            mainContent.style.display = 'block';
+            footer.style.display = 'block';
+
+            // Fetch user data from Firebase
+            const userRef = ref(db, 'users/' + loggedInUser);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    userName.textContent = userData.name;
+                    userPhone.textContent = userData.number;
+                    userEmail.textContent = userData.email;
+                    userDivision.textContent = userData.division;
+                    userDistrict.textContent = userData.district;
+                    userUpazilla.textContent = userData.upazilla;
+                    userVillage.textContent = userData.village;
+                }
+            }).catch((error) => {
+                console.error("Error fetching user data: ", error);
+            });
+        } else {
+            // User is not logged in, show sign-up form
+            signupForm.style.display = 'block';
+            mainContent.style.display = 'none';
+            footer.style.display = 'none';
+        }
+
+        // Handle Sign-up Form Submission
+        signupFormData.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Show loading animation
+            loading.style.display = 'flex';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const number = document.getElementById('number').value;
+            const password = document.getElementById('password').value;
+            const division = document.getElementById('division').value;
+            const district = document.getElementById('district').value;
+            const upazilla = document.getElementById('upazilla').value;
+            const village = document.getElementById('village').value;
+
+            // Generate a unique user ID (using email as key for simplicity)
+            const userId = email.replace(/[^a-zA-Z0-9]/g, '');
+
+            // Save user data to Firebase
+            set(ref(db, 'users/' + userId), {
+                name: name,
+                email: email,
+                number: number,
+                password: password,
+                division: division,
+                district: district,
+                upazilla: upazilla,
+                village: village
+            }).then(() => {
+                // Auto-login after sign-up
+                localStorage.setItem('loggedInUser', userId);
+
+                // Hide loading animation
+                loading.style.display = 'none';
+
+                // Show success message
+                alert("Sign-up successful! Welcome, " + name);
+
+                // Update UI
+                signupForm.style.display = 'none';
+                mainContent.style.display = 'block';
+                footer.style.display = 'block';
+
+                // Update user details in UI
+                userName.textContent = name;
+                userPhone.textContent = number;
+                userEmail.textContent = email;
+                userDivision.textContent = division;
+                userDistrict.textContent = district;
+                userUpazilla.textContent = upazilla;
+                userVillage.textContent = village;
+            }).catch((error) => {
+                // Hide loading animation
+                loading.style.display = 'none';
+                console.error("Error signing up: ", error);
+                alert("Error signing up. Please try again.");
+            });
+        });
+
+        // Reset form on reset button click
+        signupFormData.addEventListener('reset', () => {
+            signupFormData.reset();
+        });
+
+        // Logout function
+        window.logout = function() {
+            localStorage.removeItem('loggedInUser');
+            signupForm.style.display = 'block';
+            mainContent.style.display = 'none';
+            footer.style.display = 'none';
+        };
+    </script>
+</body>
+</html>

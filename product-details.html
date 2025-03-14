@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Ekta Bazaar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #f1f1f1;
+            color: #333;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .product-details {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .product-image-container:hover .product-image {
+            transform: scale(1.5);
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .product-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #f85606;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .stock {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-selector input {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .quantity-selector button {
+            background: #f85606;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quantity-selector button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .add-to-cart-btn {
+            background: #f85606;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .add-to-cart-btn:hover:not(:disabled) {
+            background: #e74c00;
+        }
+
+        .reviews {
+            margin-top: 20px;
+        }
+
+        .reviews h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .review {
+            border-top: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .product-details {
+                flex-direction: column;
+            }
+            .product-image-container {
+                width: 100%;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Reuse your existing header from index.html -->
+        <h1>Ekta Bazaar</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search products...">
+            <button>🔍</button>
+        </div>
+        <div class="header-links">
+            <a href="index.html">Home</a>
+            <a href="#" onclick="toggleSection('cart')">Cart (<span id="cart-count">0</span>)</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="product-details">
+            <div class="product-image-container">
+                <img id="product-image" class="product-image" src="" alt="Product Image">
+            </div>
+            <div class="product-info">
+                <h2 id="product-name"></h2>
+                <p id="product-price" class="price"></p>
+                <p id="product-stock" class="stock"></p>
+                <p id="product-description" class="description"></p>
+                <div class="quantity-selector">
+                    <button onclick="adjustQuantity(-1)">-</button>
+                    <input type="number" id="quantity" min="1" value="1">
+                    <button onclick="adjustQuantity(1)">+</button>
+                </div>
+                <button id="add-to-cart-btn" class="add-to-cart-btn">Add to Cart</button>
+            </div>
+        </div>
+        <div class="reviews">
+            <h3>Reviews</h3>
+            <div id="reviews-list"></div>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Reuse your existing footer -->
+        <p>© 2025 Ekta Bazaar. Shop Smart!</p>
+    </footer>
+
+    <script type="module">
+        // Firebase Config (same as your index.html)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Get Product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        let productData = {};
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Load Product Details
+        get(ref(db, `products/${productId}`)).then(snapshot => {
+            if (snapshot.exists()) {
+                productData = snapshot.val();
+                productData.id = productId;
+                document.getElementById('product-image').src = productData.image;
+                document.getElementById('product-name').textContent = productData.name;
+                document.getElementById('product-price').textContent = `$${productData.price}`;
+                document.getElementById('product-stock').textContent = `Stock: ${productData.stock}`;
+                document.getElementById('product-description').textContent = productData.description || "No description available.";
+                document.getElementById('quantity').max = productData.stock;
+                if (productData.stock === 0) {
+                    document.getElementById('add-to-cart-btn').disabled = true;
+                    document.getElementById('add-to-cart-btn').textContent = "Out of Stock";
+                }
+            } else {
+                document.querySelector('.product-details').innerHTML = "<p>Product not found.</p>";
+            }
+        });
+
+        // Quantity Adjustment
+        window.adjustQuantity = function(change) {
+            const quantityInput = document.getElementById('quantity');
+            let value = parseInt(quantityInput.value) + change;
+            if (value < 1) value = 1;
+            if (value > productData.stock) value = productData.stock;
+            quantityInput.value = value;
+        };
+
+        // Add to Cart (Sync with index.html cart)
+        document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                if (existing.quantity + quantity <= productData.stock) {
+                    existing.quantity += quantity;
+                } else {
+                    alert(`Cannot add more than ${productData.stock} items.`);
+                    return;
+                }
+            } else {
+                cart.push({ id: productId, name: productData.name, price: productData.price, quantity });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`${quantity} x ${productData.name} added to cart!`);
+        });
+
+        // Update Cart Count (Sync with index.html)
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        updateCartCount();
+    </script>
+</body>
+</html>

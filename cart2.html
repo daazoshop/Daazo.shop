@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ShopNow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+    /* Reset and Base Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+    font-family: 'Roboto', sans-serif; 
+    background: #f0f4f0; /* Light green */
+    color: #1b5e20; /* Dark green */
+    line-height: 1.5; 
+    overflow-x: hidden;
+    }
+    
+    /* Header */
+    .header { 
+    background: linear-gradient(90deg, #2e7d32, #388e3c); /* Green gradient */
+    padding: 8px 12px; 
+    position: sticky; top: 0; z-index: 1000; 
+    display: flex; align-items: center; justify-content: space-between; 
+    color: #fff; 
+    }
+    .header-back i { color:#fff;font-size: 18px; cursor: pointer; transition: color 0.3s; }
+    .header-back i:hover { color: #66bb6a; }
+    .header-title { font-size: 18px; font-weight: 500; }
+    .header-icons a { color: #fff; font-size: 18px; margin-left: 15px; transition: color 0.3s; }
+    .header-icons a:hover { color: #66bb6a; }
+    
+    /* Progress Bar */
+    .progress-bar { 
+    background: #e8f5e9; 
+    padding: 8px; 
+    display: flex; justify-content: space-around; 
+    border-bottom: 1px solid #c8e6c9;
+    }
+    .progress-item { text-align: center; font-size: 12px; color: #4caf50; }
+    .progress-item.active { color: #2e7d32; font-weight: 500; }
+    .progress-item i { font-size: 18px; margin-bottom: 5px; }
+    
+    /* Card Container */
+    .card {
+    width: 90%;
+    margin: 10px auto;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #c8e6c9;
+    background: linear-gradient(135deg, #e8f5e9, #ffffff);
+    }
+    .img { width: 40px; }
+    
+    /* Border Animation */
+    @keyframes borderAnimation {
+    0% { border-color: #66bb6a; }
+    50% { border-color: #4caf50; }
+    100% { border-color: #66bb6a; }
+    }
+    
+    /* Icon */
+    .icon { 
+    color: #4caf50; 
+    margin-right: 15px; 
+    margin-left: 10px;
+    }
+    
+    /* Text Content */
+    .text-content { flex: 1; }
+    .text-content h2 { font-size: 16px; font-weight: 600; color: #1b5e20; margin: 0; }
+    .text-content p { font-size: 12px; color: #4caf50; margin: 5px 0 0; }
+    
+    /* Checkout Card */
+    .checkout-card { 
+    background: linear-gradient(135deg, #e8f5e9, #ffffff); 
+    padding: 15px; 
+    margin-bottom: 15px; 
+    border-radius: 10px; 
+    border: 1px solid #c8e6c9;
+    }
+    .card-title { 
+    font-size: 16px; 
+    font-weight: 600; 
+    margin-bottom: 10px; 
+    color: #1b5e20; 
+    display: flex; justify-content: space-between; align-items: center; 
+    cursor: pointer; 
+    transition: color 0.3s;
+    }
+    .card-title:hover { color: #388e3c; }
+    .card-title i { font-size: 14px; transition: transform 0.3s; }
+    .card-title.collapsed i { transform: rotate(180deg); }
+    .card-content { transition: all 0.4s ease; }
+    .card-content.collapsed { max-height: 0; opacity: 0; overflow: hidden; }
+    
+    /* Address Form */
+    .address-form { display: grid; gap: 10px; }
+    .form-group { display: flex; align-items: center; gap: 8px; }
+    .form-group label { font-size: 14px; font-weight: 500; color: #2e7d32; }
+    .form-group label i { margin-right: 5px; }
+    .form-group input, .form-group textarea { 
+    padding: 8px 10px; 
+    border: 1px solid #c8e6c9; 
+    border-radius: 8px; 
+    font-size: 13px; 
+    outline: none; 
+    width: 100%;
+    transition: border-color 0.3s, background-color 0.3s;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: #388e3c; background-color: #ffffff; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-btn { 
+    background: #388e3c; 
+    color: #fff; 
+    padding: 8px 20px; 
+    border: none; 
+    border-radius: 8px; 
+    font-size: 14px; 
+    cursor: pointer; 
+    transition: background 0.3s;
+    }
+    .form-btn:hover { background: #2e7d32; }
+    
+    /* Order Item */
+    .order-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #c8e6c9; }
+    .order-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 10px; }
+    .item-info { flex: 1; }
+    .item-title { font-size: 14px; font-weight: 500; margin-bottom: 5px; color: #1b5e20; }
+    .item-specs { font-size: 12px; color: #4caf50; }
+    .item-cost { font-size: 14px; font-weight: 500; color: #2e7d32; }
+    
+    /* Promo Box */
+    .promo-box { margin-top: 15px; position: relative; }
+    .promo-box input { 
+    padding: 8px 10px 8px 35px; 
+    border: 1px solid #c8e6c9; 
+    border-radius: 8px; 
+    font-size: 13px; 
+    width: 100%;
+    }
+    .promo-box input:focus { border-color: #388e3c; }
+    .promo-box .promo-icon { 
+    position: absolute; 
+    left: 10px; 
+    top:15%; 
+    
+    color: #4caf50; 
+    font-size: 14px;
+    }
+    .promo-btn { 
+    background: #388e3c; 
+    color: #fff; 
+    padding: 8px 20px; 
+    border: none; 
+    border-radius: 8px; 
+    font-size: 14px; 
+    cursor: pointer; 
+    transition: background 0.3s;
+    margin-top: 8px;
+    width: 100%;
+    }
+    .promo-btn:hover { background: #2e7d32; }
+    
+    /* Summary List */
+    .summary-list { padding: 15px 0; }
+    .summary-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; color: #2e7d32; }
+    .summary-item.total { font-weight: 500; font-size: 15px; }
+    .summary-item.total span:last-child { color: #1b5e20; margin-bottom: 0px; }
+    
+    /* Checkout Footer */
+    .checkout-footer { 
+    position: fixed; bottom: 0; left: 0; right: 0; 
+    background: #e8f5e9; 
+    padding: 10px 12px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    border-top: 1px solid #c8e6c9; 
+    border-radius: 10px 10px 0 0;
+    }
+    .footer-total { font-size: 16px; font-weight: 500; }
+    .footer-total span { color: #1b5e20; }
+    .checkout-btn { 
+    background: #388e3c; 
+    color: #fff; 
+    padding: 8px 25px; 
+    border: none; 
+    border-radius: 10px; 
+    font-size: 18px; 
+    font-weight: 500; 
+    cursor: pointer; 
+    transition: background 0.3s;
+    }
+    .checkout-btn:disabled { background: #a5d6a7; cursor: not-allowed; }
+    .checkout-btn:hover:not(:disabled) { background: #2e7d32; }
+    
+    /* Tag Section Styling */
+    .tag-section {
+    margin-top: 15px;
+    padding: 10px;
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+    }
+    .tag-section h3 { 
+    font-size: 15px; 
+    font-weight: 500; 
+    color: #1b5e20; 
+    margin-bottom: 8px;
+    }
+    .tag-section .tag-list { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    flex-wrap: wrap;
+    }
+    .tag-section .tag-list span { 
+    background: #4caf50; 
+    color: #fff; 
+    padding: 6px 10px; 
+    border-radius: 20px; 
+    font-size: 12px; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    transition: transform 0.3s;
+    }
+    .tag-section .tag-list span:hover { transform: scale(1.05); }
+    .tag-section .tag-list i { font-size: 12px; }
+    .tag-section .no-tags { 
+    color: #4caf50; 
+    font-size: 12px; 
+    font-style: italic; 
+    background: #ffffff; 
+    padding: 6px 10px; 
+    border-radius: 8px;
+    transition: background 0.3s;
+    }
+    .tag-section .no-tags:hover { background: #e8f5e9; }
+    
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Estimated Delivery Section */
+    .estimated-delivery {
+    margin-bottom:50px;
+    padding: 13px;
+    background: #ffffff;
+    border: 1px solid #c8e6c9;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #2e7d32;
+    }
+    .estimated-delivery i { margin-right: 5px; color: #4caf50; }
+    
+    /* Responsive Design for Mobile */
+    @media (max-width: 768px) {
+    .header { padding: 6px 10px; }
+    .header-title { font-size: 16px; }
+    .header-icons a { font-size: 16px; margin-left: 10px; }
+    .progress-item { font-size: 10px; }
+    .progress-item i { font-size: 16px; }
+    .card { width: 95%; margin: 8px auto; }
+    .img { width: 30px; }
+    .text-content h2 { font-size: 14px; }
+    .text-content p { font-size: 10px; }
+    .checkout-card { padding: 10px; margin-bottom: 10px; }
+    .card-title { font-size: 14px; }
+    .card-title i { font-size: 12px; }
+    .form-group label { font-size: 12px; }
+    .form-group input, .form-group textarea { padding: 6px 8px; font-size: 12px; border-radius: 6px; }
+    .form-group textarea { min-height: 60px; }
+    .form-btn { padding: 6px 15px; font-size: 12px; border-radius: 6px; }
+    .order-item { padding: 10px 0; }
+    .order-item img { width: 70px; height:70px; margin-right: 8px; }
+    .item-title { font-size: 12px; }
+    .item-specs { font-size: 10px; }
+    .item-cost { font-size: 12px; }
+    .promo-box input { padding: 6px 8px 6px 30px; font-size: 12px; }
+    .promo-box .promo-icon { font-size: 12px; left: 8px; }
+    .promo-btn { padding: 6px 15px; font-size: 12px; margin-top: 6px; }
+    .summary-item { font-size: 11px; margin-bottom: 8px; }
+    .summary-item.total { font-size: 13px; }
+    .checkout-footer { padding: 8px 10px; }
+    .footer-total { font-size: 14px; }
+    .checkout-btn { padding: 6px 20px; font-size: 16px; border-radius: 8px; }
+    .tag-section { margin-top: 10px; padding: 8px; }
+    .tag-section h3 { font-size: 13px; margin-bottom: 6px; }
+    .tag-section .tag-list span { padding: 4px 8px; font-size: 10px; border-radius: 15px; }
+    .tag-section .no-tags { font-size: 10px; padding: 4px 8px; }
+    .estimated-delivery { margin-top: 10px; padding: 8px; font-size: 10px; }
+    }</style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="header-back"><i class="fas fa-arrow-left"></i></a>
+        <div class="header-title">Checkout</div>
+        <div class="header-icons">
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-item active"><i class="fas fa-map-marker-alt"></i><br>Address</div>
+        <div class="progress-item"><i class="fas fa-credit-card"></i><br>Payment</div>
+        <div class="progress-item"><i class="fas fa-check"></i><br>Confirm</div>
+    </div>
+
+    <div class="card">
+        <div class="icon">
+            <img class="img" src="cash.png">
+        </div>
+        <div class="text-content">
+            <h2>Cash on Delivery</h2>
+            <p>সহজ এবং নিরাপদ পেমেন্ট অপশন</p>
+        </div>
+    </div>
+
+    <div class="checkout-wrapper">
+        <div class="checkout-card">
+            <div class="card-title" onclick="toggleSection(this)">Delivery Address<i class="fas fa-chevron-down"></i></div>
+            <div class="card-content">
+                <form class="address-form" id="addressForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phone" placeholder="01xxxxxxxxx" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-globe"></i> Division</label>
+                        <input type="text" id="division" placeholder="Your Division" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-map"></i> District</label>
+                        <input type="text" id="district" placeholder="Your District" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-map-pin"></i> Upazila</label>
+                        <input type="text" id="upazila" placeholder="Your Upazila" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-home"></i> Detailed Address</label>
+                        <textarea id="address" placeholder="House, Road, Area" required></textarea>
+                    </div>
+                    <button type="button" class="form-btn" id="saveAddressBtn"><i class="fas fa-save"></i> Save & Proceed</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="checkout-card">
+            <div class="card-title" onclick="toggleSection(this)">Order Summary<i class="fas fa-chevron-down"></i></div>
+            <div class="card-content">
+                <div id="orderItems"></div>
+                <div class="tag-section">
+                    <h3>Tags</h3>
+                    <div id="tagList" class="tag-list"></div>
+                </div>
+                <div class="promo-box">
+                    <i class="fas fa-tag promo-icon"></i>
+                    <input type="text" id="promoCode" placeholder="Enter Promo Code">
+                    <button class="promo-btn" id="applyPromoBtn"><i class="fas fa-gift"></i> Apply</button>
+                </div>
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <span>Subtotal</span>
+                        <span>৳ <span id="subtotalValue">0.00</span></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Shipping</span>
+                        <span>৳ <span id="shippingValue">80.00</span></span>
+                    </div>
+                    <div class="summary-item" id="discountRow" style="display: none;">
+                        <span>Discount</span>
+                        <span>-৳ <span id="discountValue">0.00</span></span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total</span>
+                        <span>৳ <span id="totalValue">0.00</span></span>
+                    </div>
+                </div>
+                <div class="estimated-delivery">
+                    <i class="fas fa-truck"></i> Estimated Delivery: 3-5 Business Days
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-footer">
+        <div class="footer-total">Total: <span>৳ <span id="footerTotal">0.00</span></span></div>
+        <button class="checkout-btn" id="placeOrderBtn" disabled><i class="fas fa-check-circle"></i> Order Confirm</button>
+    </div>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    
+    const firebaseConfig = {
+    apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+    authDomain: "movies-bee24.firebaseapp.com",
+    databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+    projectId: "movies-bee24",
+    storageBucket: "movies-bee24.appspot.com",
+    messagingSenderId: "1080659811750",
+    appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    
+    let currentOrder = null;
+    let currentAddress = null;
+    let discount = 0;
+    let addressValidated = false;
+    
+    function toggleSection(element) {
+    const content = element.nextElementSibling;
+    content.classList.toggle('collapsed');
+    element.classList.toggle('collapsed');
+    }
+    
+    function renderOrderItems() {
+    const cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+    const container = document.getElementById('orderItems');
+    const tagList = document.getElementById('tagList');
+    
+    if (cart.length === 0) {
+    container.innerHTML = '<p>No items in cart.</p>';
+    tagList.innerHTML = '<span class="no-tags">No offers available</span>';
+    updateTotals(0);
+    return;
+    }
+    
+    let subtotal = 0;
+    let itemsHTML = '';
+    let hasFreeDelivery = false;
+    
+    cart.forEach(item => {
+    const total = item.price * item.quantity;
+    subtotal += total;
+    itemsHTML += `
+    <div class="order-item">
+    <img src="${item.image}" alt="${item.name}">
+    <div class="item-info">
+    <div class="item-title">${item.name}</div>
+    <div class="item-specs">Qty: ${item.quantity} | Size: ${item.size || 'N/A'} | Color: ${item.color || 'N/A'}</div>
+    <div class="item-cost">৳ ${total.toFixed(2)}</div>
+    </div>
+    </div>
+    `;
+    if (item.tags && Array.isArray(item.tags) && item.tags.includes("Free Delivery")) {
+    hasFreeDelivery = true;
+    }
+    });
+    
+    const shipping = hasFreeDelivery ? 0 : 80;
+    currentOrder = { products: cart, subtotal, shipping, discount, total: subtotal + shipping - discount };
+    
+    container.innerHTML = itemsHTML;
+    tagList.innerHTML = hasFreeDelivery ? '<span><i class="fas fa-truck"></i> Free Delivery</span>' : '<span class="no-tags">No offers available</span>';
+    updateTotals(currentOrder.subtotal, currentOrder.shipping);
+    }
+    
+    function updateTotals(subtotal, shipping = 80) {
+    const total = subtotal + shipping - discount;
+    document.getElementById('subtotalValue').textContent = subtotal.toFixed(2);
+    document.getElementById('shippingValue').textContent = shipping.toFixed(2);
+    document.getElementById('totalValue').textContent = total.toFixed(2);
+    document.getElementById('footerTotal').textContent = total.toFixed(2);
+    if (discount > 0) {
+    document.getElementById('discountValue').textContent = discount.toFixed(2);
+    document.getElementById('discountRow').style.display = 'flex';
+    }
+    }
+    
+    function applyPromo() {
+    const code = document.getElementById('promoCode').value.trim().toUpperCase();
+    const subtotal = parseFloat(document.getElementById('subtotalValue').textContent);
+    if (code === 'DISCOUNT10' && subtotal > 0) {
+    discount = subtotal * 0.1;
+    currentOrder.discount = discount;
+    currentOrder.total = currentOrder.subtotal + currentOrder.shipping - discount;
+    updateTotals(currentOrder.subtotal, currentOrder.shipping);
+    alert('Promo applied! Saved ৳' + discount.toFixed(2));
+    } else {
+    alert('Invalid promo code.');
+    }
+    }
+    
+    function validateAddress() {
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const division = document.getElementById('division').value.trim();
+    const district = document.getElementById('district').value.trim();
+    const upazila = document.getElementById('upazila').value.trim();
+    const address = document.getElementById('address').value.trim();
+    if (!name || !phone || !division || !district || !upazila || !address) {
+    alert('Please fill all fields!');
+    return;
+    }
+    currentAddress = { name, phone, division, district, upazila, address };
+    addressValidated = true;
+    document.getElementById('placeOrderBtn').disabled = false;
+    const addressContent = document.querySelector('.checkout-card:first-child .card-content');
+    addressContent.innerHTML = `
+    <p><strong>${name}</strong></p>
+    <p>${phone}</p>
+    <p>${address}, ${upazila}, ${district}, ${division}</p>
+    <button class="form-btn" id="editAddressBtn"><i class="fas fa-edit"></i> Edit</button>
+    `;
+    document.querySelectorAll('.progress-item')[1].classList.add('active');
+    document.getElementById('editAddressBtn').addEventListener('click', editAddress);
+    }
+    
+    function editAddress() {
+    addressValidated = false;
+    document.getElementById('placeOrderBtn').disabled = true;
+    const addressContent = document.querySelector('.checkout-card:first-child .card-content');
+    addressContent.innerHTML = `
+    <form class="address-form" id="addressForm">
+    <div class="form-group">
+    <label><i class="fas fa-user"></i> Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name" value="${currentAddress.name}" required>
+    </div>
+    <div class="form-group">
+    <label><i class="fas fa-phone"></i> Phone Number</label>
+    <input type="tel" id="phone" placeholder="01xxxxxxxxx" value="${currentAddress.phone}" required>
+    </div>
+    <div class="form-group">
+    <label><i class="fas fa-globe"></i> Division</label>
+    <input type="text" id="division" placeholder="Your Division" value="${currentAddress.division}" required>
+    </div>
+    <div class="form-group">
+    <label><i class="fas fa-map"></i> District</label>
+    <input type="text" id="district" placeholder="Your District" value="${currentAddress.district}" required>
+    </div>
+    <div class="form-group">
+    <label><i class="fas fa-map-pin"></i> Upazila</label>
+    <input type="text" id="upazila" placeholder="Your Upazila" value="${currentAddress.upazila}" required>
+    </div>
+    <div class="form-group">
+    <label><i class="fas fa-home"></i> Detailed Address</label>
+    <textarea id="address" placeholder="House, Road, Area" required>${currentAddress.address}</textarea>
+    </div>
+    <button type="button" class="form-btn" id="saveAddressBtn"><i class="fas fa-save"></i> Save & Proceed</button>
+    </form>
+    `;
+    document.querySelectorAll('.progress-item')[1].classList.remove('active');
+    document.getElementById('saveAddressBtn').addEventListener('click', validateAddress);
+    }
+    
+    function saveOrderToLocalStorage(orderId, orderData) {
+    // Get existing orders from local storage or initialize an empty object
+    const existingOrders = JSON.parse(localStorage.getItem('orders')) || {};
+    // Add the new order with its ID
+    existingOrders[orderId] = orderData;
+    // Save back to local storage
+    localStorage.setItem('orders', JSON.stringify(existingOrders));
+    }
+    
+    function placeOrder() {
+    if (!currentOrder || !addressValidated) {
+    alert('Please complete all steps!');
+    return;
+    }
+    if (confirm('অর্ডারটি নিশ্চিত করতে ওকে ক্লিক করুন।')) {
+    const orderData = { 
+    address: currentAddress, 
+    order: currentOrder, 
+    timestamp: Date.now(), 
+    status: 'Pending' 
+    };
+    push(ref(db, 'orders'), orderData)
+    .then((snapshot) => {
+    const orderId = snapshot.key; // Get the unique order ID from Firebase
+    // Save the order to local storage with the Firebase-generated ID
+    saveOrderToLocalStorage(orderId, orderData);
+    alert('Order placed successfully! Redirecting to your orders...');
+    localStorage.removeItem('shoppingCart');
+    window.location.href = 'orders.html';
+    })
+    .catch(error => {
+    console.error('Error:', error);
+    alert('Order placement failed.');
+    });
+    }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+    renderOrderItems();
+    document.getElementById('saveAddressBtn').addEventListener('click', validateAddress);
+    document.getElementById('applyPromoBtn').addEventListener('click', applyPromo);
+    document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
+    });
+    </script>
+</body>
+</html>

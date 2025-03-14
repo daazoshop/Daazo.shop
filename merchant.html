@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>উন্নত মার্চেন্ট ফর্ম - Daazo</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0c3fc, #f7d9d9);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            position: relative;
+            
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            z-index: 0;
+        }
+
+        .form-container {
+            background: #fffaf7;
+            padding: 40px;
+            
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 217, 217, 0.5);
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff6f91;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6f91, #ffc1cc);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff6f91;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        label {
+            position: absolute;
+            top: 12px;
+            left: 40px;
+            font-size: 14px;
+            color: #8b8b8b;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        input:focus + label,
+        input:not(:placeholder-shown) + label,
+        textarea:focus + label,
+        textarea:not(:placeholder-shown) + lablel,
+        select:focus + label,
+        select:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 15px;
+            font-size: 10px;
+            color: #ff6f91;
+            background: #fffaf7;
+            padding: 0 5px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #ffd9d9;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #ff6f91;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255, 111, 145, 0.1);
+            outline: none;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            
+            
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+            accent-color: #ff6f91;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6f91, #ffc1cc);
+            color: #fff;
+        }
+
+        .submit-btn:hover, .submit-btn.loading {
+            background: linear-gradient(135deg, #ff5e7f, #ffb3c1);
+        }
+
+        .submit-btn.loading::after {
+            content: ' লোডিং...';
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff9a8b, #ffdab9);
+            color: #fff;
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #ff8a7a, #ffcc99);
+        }
+
+        .error, .success {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #ff6f91;
+            border: 1px solid #ff6f91;
+        }
+
+        .success {
+            background: #e6f7e6;
+            color: #28a745;
+            border: 1px solid #28a745;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+
+            .form-group i {
+                font-size: 14px;
+                left: 12px;
+            }
+
+            label {
+                left: 35px;
+            }
+
+            input, textarea, select {
+                padding: 10px 12px 10px 35px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>মার্চেন্ট ফর্ম</h2>
+        <form id="merchantForm">
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="merchantName" name="merchantName" placeholder=" " required>
+                <label for="merchantName">আপনার নাম:</label>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-store"></i>
+                <input type="text" id="shopName" name="shopName" placeholder=" " required>
+                <label for="shopName">দোকানের নাম:</label>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="gmail" name="gmail" placeholder=" " required>
+                <label for="gmail">জি-মেইল:</label>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="phone" name="phone" placeholder=" " required>
+                <label for="phone">ফোন নম্বর:</label>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <textarea id="pickupAddress" name="pickupAddress" placeholder=" " required></textarea>
+                <label for="pickupAddress">প্রোডাক্ট পিকআপ ঠিকানা (বিভাগ, জেলা, উপজেলা, বিস্তারিত ঠিকানা):</label>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-wallet"></i>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="" disabled selected>পেমেন্ট মাধ্যম নির্বাচন করুন</option>
+                    <option value="bkash">বিকাশ</option>
+                    <option value="nagad">নগদ</option>
+                </select>
+                <label for="paymentMethod">পেমেন্ট মাধ্যম:</label>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-credit-card"></i>
+                <input type="tel" id="paymentNumber" name="paymentNumber" placeholder=" " required>
+                <label for="paymentNumber">পেমেন্ট নম্বর:</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="agreement" name="agreement" required>
+                <span>আপনাদের সাথে একমত</span>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="submit-btn">জমা দিন</button>
+                <button type="button" class="reset-btn" onclick="document.getElementById('merchantForm').reset()">রিসেট করুন</button>
+            </div>
+            <p id="errorMessage" class="error"></p>
+            <p id="successMessage" class="success">তথ্য সফলভাবে জমা হয়েছে!</p>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Form submission handling
+        document.getElementById('merchantForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const merchantName = document.getElementById('merchantName').value.trim();
+            const shopName = document.getElementById('shopName').value.trim();
+            const gmail = document.getElementById('gmail').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const pickupAddress = document.getElementById('pickupAddress').value.trim();
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const paymentNumber = document.getElementById('paymentNumber').value.trim();
+            const agreement = document.getElementById('agreement').checked;
+
+            const errorMsg = document.getElementById('errorMessage');
+            const successMsg = document.getElementById('successMessage');
+            const submitBtn = document.querySelector('.submit-btn');
+
+            // Reset messages
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            // Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^\d{11}$/;
+            if (!merchantName || !shopName || !gmail || !phone || !pickupAddress || !paymentMethod || !paymentNumber || !agreement) {
+                errorMsg.textContent = 'সব তথ্য পূরণ করুন!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+            if (!emailRegex.test(gmail)) {
+                errorMsg.textContent = 'সঠিক ইমেইল ফরম্যাট ব্যবহার করুন!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+            if (!phoneRegex.test(phone) || !phoneRegex.test(paymentNumber)) {
+                errorMsg.textContent = 'ফোন নম্বর ১১ ডিজিটের হতে হবে!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Check for duplicate email
+            submitBtn.classList.add('loading');
+            try {
+                const merchantsRef = ref(db, 'merchant_data');
+                const snapshot = await get(merchantsRef);
+
+                // Check if gmail already exists
+                let emailExists = false;
+                if (snapshot.exists()) {
+                    const merchants = snapshot.val();
+                    emailExists = Object.values(merchants).some(merchant => 
+                        merchant.gmail.toLowerCase() === gmail.toLowerCase()
+                    );
+                }
+
+                if (emailExists) {
+                    errorMsg.textContent = 'এই ইমেইল ইতিমধ্যে নিবন্ধিত!';
+                    errorMsg.style.display = 'block';
+                    submitBtn.classList.remove('loading');
+                    return;
+                }
+
+                // Save data to Realtime Database
+                const newMerchantRef = push(merchantsRef);
+                await set(newMerchantRef, {
+                    merchantName,
+                    shopName,
+                    gmail,
+                    phone,
+                    pickupAddress,
+                    paymentMethod,
+                    paymentNumber,
+                    agreement,
+                    timestamp: Date.now()
+                });
+
+                successMsg.style.display = 'block';
+                document.getElementById('merchantForm').reset();
+                submitBtn.classList.remove('loading');
+            } catch (error) {
+                errorMsg.textContent = 'তথ্য জমা দিতে সমস্যা: ' + error.message;
+                errorMsg.style.display = 'block';
+                submitBtn.classList.remove('loading');
+            }
+        });
+    </script>
+</body>
+</html>

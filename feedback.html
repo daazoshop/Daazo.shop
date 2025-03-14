@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Feedback - Dazoo</title>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5e6ea, #ffd1dc);
+            min-height: 100vh;
+            
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            height:100vh;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /* Header Styling */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #f5365e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-in;
+        }
+
+        @keyfraes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Feedback Form Styling */
+        .feedback-form {
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            border-radius: 15px;
+            padding: 20px;
+            
+            position: relative;
+        }
+
+        .feedback-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 54, 94, 0.1), transparent);
+            transform: rotate(45deg);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+           
+            color: #f5365e;
+            font-size: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .input-group textarea  {
+            height: 100px;
+            resize: none;
+            
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: #f5365e;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(245, 54, 94, 0.2);
+            outline: none;
+        }
+
+        .input-group input[type="file"] {
+            padding: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .button-group button {
+            width: 48%;
+            padding: 10px;
+            position: relative;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-group button[type="submit"] {
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            box-shadow: 0 2px 2px rgba(245, 54, 94, 0.3);
+        }
+
+        .button-group button[type="submit"]:hover {
+            background: linear-gradient(135deg, #e31b4d, #e55f12);
+            transform: translateY(-2px);
+        }
+
+        .button-group button[type="reset"] {
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            color: #fff;
+            box-shadow: 0 2px 2px rgba(255, 140, 0, 0.3);
+        }
+
+        .button-group button[type="reset"]:hover {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            transform: translateY(-2px);
+        }
+
+        /* Back Button */
+        .back-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-btn a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn a:hover {
+            background: linear-gradient(135deg, #e31b4d, #e55f12);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer .footer-logo {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        footer .footer-socials a {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 8px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        footer .footer-socials a:hover {
+            transform: scale(1.2);
+            color: #ffd1dc;
+        }
+
+        footer .footer-copyright {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+               
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .feedback-form {
+                padding: 15px;
+            }
+
+            .input-group label {
+                font-size: 12px;
+            }
+
+            .input-group input,
+            .input-group textarea {
+                padding: 8px 8px 8px 30px;
+                font-size: 12px;
+            }
+
+            .input-group i {
+                font-size: 14px;
+            }
+
+            .button-group button {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .back-btn a {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+
+            footer .footer-logo {
+                font-size: 16px;
+            }
+
+            footer .footer-socials a {
+                font-size: 16px;
+                margin: 0 6px;
+            }
+
+            footer .footer-copyright {
+                font-size: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container" id="mainContent">
+        <!-- Header -->
+        <div class="header">
+            <h2>Submit Feedback</h2>
+        </div>
+
+        <!-- Feedback Form -->
+        <div class="feedback-form">
+            <form id="feedbackForm">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <label for="userName">Your Name</label>
+                    <input type="text" id="userName" name="userName" readonly>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <label for="userPhone">Your Phone Number</label>
+                    <input type="text" id="userPhone" name="userPhone" readonly>
+                </div>
+
+                <div class="input-group">
+                   
+                    <label for="feedbackText">Your Feedback</label>
+                    <textarea id="feedbackText" name="feedbackText" required placeholder="Write your feedback here..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    
+                    <label for="feedbackImage">Upload Image (Optional)</label>
+                    <input type="file" id="feedbackImage" name="feedbackImage" accept="image/*">
+                </div>
+
+                <div class="button-group">
+                    <button type="submit">Submit Feedback</button>
+                    <button type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-btn">
+            
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="footer-logo">Dazoo</div>
+            <div class="footer-socials">
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-copyright">© 2025 Daazo. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, get, push, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+
+        // DOM Elements
+        const mainContent = document.getElementById('mainContent');
+        const footer = document.getElementById('footer');
+        const feedbackForm = document.getElementById('feedbackForm');
+        const userName = document.getElementById('userName');
+        const userPhone = document.getElementById('userPhone');
+        const feedbackText = document.getElementById('feedbackText');
+        const feedbackImage = document.getElementById('feedbackImage');
+
+        // Check if user is logged in (using localStorage)
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        
+        if (loggedInUser) {
+            // User is logged in, show content and footer
+            mainContent.style.display = 'block';
+            footer.style.display = 'block';
+
+            // Fetch user data from Firebase
+            const userRef = ref(db, 'users/' + loggedInUser);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    userName.value = userData.name;
+                    userPhone.value = userData.number;
+                } else {
+                    alert("User data not found. Please sign up again.");
+                    window.location.href = "orders.html"; // Redirect to sign-up page
+                }
+            }).catch((error) => {
+                console.error("Error fetching user data: ", error);
+                alert("Error fetching user data. Please try again.");
+            });
+        } else {
+            // User is not logged in, redirect to sign-up page
+            alert("Please sign up or log in to submit feedback.");
+            window.location.href = "orders.html"; // Redirect to sign-up page
+        }
+
+        // Handle Feedback Form Submission
+        feedbackForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = userName.value;
+            const phone = userPhone.value;
+            const feedback = feedbackText.value;
+            const imageFile = feedbackImage.files[0];
+
+            try {
+                let imageUrl = null;
+
+                // Upload image to Firebase Storage if an image is selected
+                if (imageFile) {
+                    const imageRef = storageRef(storage, `feedback_images/${loggedInUser}/${imageFile.name}`);
+                    const snapshot = await uploadBytes(imageRef, imageFile);
+                    imageUrl = await getDownloadURL(snapshot.ref);
+                }
+
+                // Save feedback to Firebase Realtime Database
+                const feedbackRef = push(ref(db, 'feedback'));
+                await set(feedbackRef, {
+                    userId: loggedInUser,
+                    name: name,
+                    phone: phone,
+                    feedback: feedback,
+                    imageUrl: imageUrl || null,
+                    timestamp: new Date().toISOString()
+                });
+
+                alert("Feedback submitted successfully!");
+                feedbackForm.reset();
+            } catch (error) {
+                console.error("Error submitting feedback: ", error);
+                alert("Error submitting feedback. Please try again.");
+            }
+        });
+
+        // Reset form on reset button click
+        feedbackForm.addEventListener('reset', () => {
+            feedbackForm.reset();
+        });
+    </script>
+</body>
+</html>

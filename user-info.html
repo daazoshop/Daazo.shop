@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details - Dazoo</title>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5e6ea, #ffd1dc);
+            min-height: 100vh;
+           
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            width: 100%;
+            width: 100%;
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /* Header Styling */
+        .header {
+            text-align: cener;
+            background:#ddd;
+            padding:10px;
+            margin-bottom: 20px;
+            border-radius:10px;
+            
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #f5365e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-in;
+        }
+
+        @keyfrmes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Profile Card Styling */
+        .profile-card {
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            border-radius: 15px;
+            padding: 20px;
+           
+            text-align: cener;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .profilecard::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 54, 94, 0.1), transparent);
+            transform: rotate(45deg);
+        }
+
+        .profile-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #f5365e;
+            margin-bottom: 15px;
+            box-shadow: 0 0 10px rgba(245, 54, 94, 0.3);
+        }
+
+        .profile-card .user-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f5365e;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Details Section */
+        .details-section {
+            background: linear-gradient(135deg, #fff, #fffcf9);
+            border-radius: 15px;
+            padding: 15px;
+            height:60vh;
+            
+        }
+
+        .details-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f5365e;
+            margin-bottom: 15px;
+            
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #f0e6ea;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item i {
+            font-size: 20px;
+            color: #f5365e;
+        }
+
+        .detail-item p {
+            font-size: 14px;
+            color: #333;
+            margin: 0;
+        }
+
+        .detail-item p strong {
+            color: #666;
+        }
+
+        /* Back Button */
+        .back-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-btn a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn a:hover {
+            background: linear-gradient(135deg, #e31b4d, #e55f12);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #f5365e, #f57224);
+            color: #fff;
+            padding: 8px;
+            text-align: center;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer .footer-logo {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        footer .footer-socials a {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 8px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        footer .footer-socials a:hover {
+            transform: scale(1.2);
+            color: #ffd1dc;
+        }
+
+        footer .footer-copyright {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+               
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .profile-card img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .profile-card .user-name {
+                font-size: 16px;
+            }
+
+            .details-section h3 {
+                font-size: 16px;
+            }
+
+            .detail-item i {
+                font-size: 18px;
+            }
+
+            .detail-item p {
+                font-size: 12px;
+            }
+
+            .back-btn a {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+
+            footer .footer-logo {
+                font-size: 16px;
+            }
+
+            footer .footer-socials a {
+                font-size: 16px;
+                margin: 0 6px;
+            }
+
+            footer .footer-copyright {
+                font-size: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container" id="mainContent">
+        <!-- Header -->
+        <div class="header">
+            <h2>User Profile</h2>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <img src="https://badhonsworld.com/_next/image?url=%2Fimages%2Fmale.jpeg&w=128&q=75" alt="Profile Picture">
+            <div class="user-name" id="userName">Loading...</div>
+        </div>
+
+        <!-- Details Section -->
+        <div class="details-section">
+            <h3>Personal Details</h3>
+            <div class="detail-item">
+                <i class="fas fa-envelope"></i>
+                <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-phone"></i>
+                <p><strong>Phone:</strong> <span id="userPhone">Loading...</span></p>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p><strong>Division:</strong> <span id="userDivision">Loading...</span></p>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-city"></i>
+                <p><strong>District:</strong> <span id="userDistrict">Loading...</span></p>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-map"></i>
+                <p><strong>Upazilla:</strong> <span id="userUpazilla">Loading...</span></p>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-home"></i>
+                <p><strong>Village:</strong> <span id="userVillage">Loading...</span></p>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-btn">
+            <a href="orders.html">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="footer-logo">Dazoo</div>
+            <div class="footer-socials">
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-facebook-messenger"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-copyright">© 2025 Daazo. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // DOM Elements
+        const mainContent = document.getElementById('mainContent');
+        const footer = document.getElementById('footer');
+        const userName = document.getElementById('userName');
+        const userPhone = document.getElementById('userPhone');
+        const userEmail = document.getElementById('userEmail');
+        const userDivision = document.getElementById('userDivision');
+        const userDistrict = document.getElementById('userDistrict');
+        const userUpazilla = document.getElementById('userUpazilla');
+        const userVillage = document.getElementById('userVillage');
+
+        // Check if user is logged in (using localStorage)
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        
+        if (loggedInUser) {
+            // User is logged in, show content and footer
+            mainContent.style.display = 'block';
+            footer.style.display = 'block';
+
+            // Fetch user data from Firebase
+            const userRef = ref(db, 'users/' + loggedInUser);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    userName.textContent = userData.name;
+                    userPhone.textContent = userData.number;
+                    userEmail.textContent = userData.email;
+                    userDivision.textContent = userData.division;
+                    userDistrict.textContent = userData.district;
+                    userUpazilla.textContent = userData.upazilla;
+                    userVillage.textContent = userData.village;
+                } else {
+                    alert("User data not found. Please sign up again.");
+                    window.location.href = "orders.html"; // Redirect to sign-up page
+                }
+            }).catch((error) => {
+                console.error("Error fetching user data: ", error);
+                alert("Error fetching user data. Please try again.");
+            });
+        } else {
+            // User is not logged in, redirect to sign-up page
+            alert("Please sign up or log in to view your details.");
+            window.location.href = "orders.html"; // Redirect to sign-up page
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "Daazo Shop",
+  "short_name": "Daazo",
+  "icons": [
+    {
+      "src": "daazo.shop/Logo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "daazo.shop/Logo.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF"
+}

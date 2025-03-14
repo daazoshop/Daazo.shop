@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy & Terms - Daazo</title>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5e6ea, #ffd1dc);
+            min-height: 100vh;
+           
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styling */
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            padding: 20px;
+            text-align: center;
+            
+          
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyfraes slideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header .logo i {
+            margin-right: 12px;
+            font-size: 36px;
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 100%;
+            width: 100%;
+            background: linear-gradient(135deg, #ffffff, #fff0f5);
+            
+            padding: 25px;
+            margin: 0 auto;
+            border: 1px solid rgba(245, 54, 94, 0.1);
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 40px;
+            line-height: 1.2;
+        }
+
+        .section h2 i {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 28px;
+            color: #ff6b6b;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover h2 i {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ff8e53;
+            margin: 15px 0 10px;
+        }
+
+        .section p,
+        .section ul {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            padding-left: 25px;
+        }
+
+        .section ul li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .section ul li i {
+            color: #ff6b6b;
+            margin-right: 10px;
+            margin-top: 3px;
+            font-size: 16px;
+        }
+
+        /* Back Button */
+        .back-btn {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .back-btn a {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid #fff;
+        }
+
+        .back-btn a:hover {
+            background: linear-gradient(135deg, #e63946, #ff8c42);
+            transform: translateY(-3px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                
+            }
+
+            .header {
+                padding: 10px;
+            }
+
+            .header .logo {
+                font-size: 24px;
+            }
+
+            .header .logo i {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .section h2 {
+                font-size: 20px;
+                padding-left: 35px;
+            }
+
+            .section h2 i {
+                font-size: 24px;
+            }
+
+            .section h3 {
+                font-size: 16px;
+            }
+
+            .section p,
+            .section ul {
+                font-size: 12px;
+            }
+
+            .back-btn a {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-shopping-bag"></i> Daazo
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Privacy Policy Section -->
+        <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Privacy Policy</h2>
+            <p>
+                At Daazo, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
+            </p>
+            <h3>1. Information We Collect</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> <strong>Personal Information:</strong> When you register on Daazo, we collect your name, email address, phone number, and shipping address.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Payment Information:</strong> We collect payment details such as credit/debit card numbers or other payment methods during checkout. However, we do not store this information on our servers; it is processed by our trusted payment gateway partners.</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Usage Data:</strong> We collect information about how you interact with our website, such as your IP address, browser type, pages visited, and time spent on our site.</li>
+            </ul>
+
+            <h3>2. How We Use Your Information</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> To process and fulfill your orders, including shipping and delivery.</li>
+                <li><i class="fas fa-check-circle"></i> To communicate with you about your account, orders, or promotional offers.</li>
+                <li><i class="fas fa-check-circle"></i> To improve our website, products, and services based on your feedback and usage patterns.</li>
+                <li><i class="fas fa-check-circle"></i> To comply with legal obligations and protect against fraudulent activities.</li>
+            </ul>
+
+            <h3>3. Sharing Your Information</h3>
+            <p>
+                We do not sell, trade, or otherwise transfer your personal information to outside parties except:
+            </p>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> With trusted third-party service providers (e.g., payment processors, delivery services) who assist us in operating our business.</li>
+                <li><i class="fas fa-check-circle"></i> When required by law or to protect the rights, property, or safety of Daazo, our users, or the public.</li>
+            </ul>
+
+            <h3>4. Data Security</h3>
+            <p>
+                We implement industry-standard security measures to protect your personal information. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.
+            </p>
+
+            <h3>5. Your Rights</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> You have the right to access, update, or delete your personal information.</li>
+                <li><i class="fas fa-check-circle"></i> You can opt-out of receiving promotional emails by following the unsubscribe instructions in those emails.</li>
+            </ul>
+
+            <h3>6. Changes to This Privacy Policy</h3>
+            <p>
+                We may update this Privacy Policy from time to time. Any changes will be posted on this page, and we will notify you via email or a notice on our website.
+            </p>
+        </div>
+
+        <!-- Terms and Conditions Section -->
+        <div class="section">
+            <h2><i class="fas fa-file-contract"></i> Terms and Conditions</h2>
+            <p>
+                Welcome to Daazo! These Terms and Conditions govern your use of our website and services. By accessing or using our platform, you agree to comply with these terms.
+            </p>
+            <h3>1. Use of Our Services</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> You must be at least 18 years old to use our services.</li>
+                <li><i class="fas fa-check-circle"></i> You agree to provide accurate and complete information when creating an account or placing an order.</li>
+                <li><i class="fas fa-check-circle"></i> You are responsible for maintaining the confidentiality of your account credentials.</li>
+            </ul>
+
+            <h3>2. Product Information and Pricing</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> We strive to provide accurate product descriptions, pricing, and availability. However, we reserve the right to correct any errors or inaccuracies.</li>
+                <li><i class="fas fa-check-circle"></i> Prices are subject to change without prior notice.</li>
+            </ul>
+
+            <h3>3. Orders and Payments</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> By placing an order, you agree to pay the total amount, including shipping fees and taxes, as displayed at checkout.</li>
+                <li><i class="fas fa-check-circle"></i> We reserve the right to cancel or refuse any order for reasons such as product unavailability, pricing errors, or suspected fraud.</li>
+            </ul>
+
+            <h3>4. Shipping and Delivery</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Delivery times are estimates and may vary due to factors beyond our control.</li>
+                <li><i class="fas fa-check-circle"></i> You are responsible for providing a correct shipping address. Daazo is not liable for failed deliveries due to incorrect address information.</li>
+            </ul>
+
+            <h3>5. Returns and Refunds</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> You may return eligible products within 7 days of delivery, subject to our Return Policy.</li>
+                <li><i class="fas fa-check-circle"></i> Refunds will be processed within 5-7 business days after we receive and inspect the returned item.</li>
+            </ul>
+
+            <h3>6. Intellectual Property</h3>
+            <p>
+                All content on our website, including images, logos, and text, is the property of Daazo and is protected by intellectual property laws. You may not reproduce, distribute, or use our content without prior written permission.
+            </p>
+
+            <h3>7. Limitation of Liability</h3>
+            <p>
+                Daazo shall not be liable for any indirect, incidental, or consequential damages arising from your use of our services, including but not limited to loss of data, profits, or business opportunities.
+            </p>
+
+            <h3>8. Governing Law</h3>
+            <p>
+                These Terms and Conditions are governed by the laws of Bangladesh. Any disputes arising from these terms will be resolved in the courts of Bangladesh.
+            </p>
+
+            <h3>9. Changes to These Terms</h3>
+            <p>
+                We may update these Terms and Conditions from time to time. Any changes will be posted on this page, and we will notify you via email or a notice on our website.
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-btn">
+            <a href="orders.html">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // No JavaScript required for this static page
+    </script>
+</body>
+</html>

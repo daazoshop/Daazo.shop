@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daazo Product Cards - Gift Items</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f1f1f1;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .product-container {
+            display: flex;
+            gap: 15px;
+            margin-top:14%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .product-card {
+            width: 260px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            background: #f5f5f5;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #212121;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 500;
+            color: #f85606;
+            margin-bottom: 5px;
+        }
+
+        .product-old-price {
+            font-size: 12px;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 5px;
+        }
+
+        .product-discount {
+            font-size: 12px;
+            color: #f85606;
+            margin-left: 5px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-rating i {
+            color: #f85606;
+            font-size: 12px;
+        }
+
+        .product-rating span {
+            font-size: 12px;
+            color: #757575;
+            margin-left: 5px;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #757575;
+            margin-left: 5px;
+        }
+
+        /* Loading Animation Styles */
+        .loading-card {
+            width: 260px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .loading-image {
+            width: 100%;
+            height: 260px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        .loading-info {
+            padding: 10px;
+        }
+
+        .loading-name {
+            width: 80%;
+            height: 16px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            animation: shimmer 2s infinite linear;
+        }
+
+        .loading-price {
+            width: 60%;
+            height: 18px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            animation: shimmer 2s infinite linear;
+        }
+
+        .loading-rating {
+            width: 40%;
+            height: 12px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            animation: shimmer 2s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .product-container {
+                gap: 10px;
+            }
+
+            .product-card, .loading-card {
+                width: 200px;
+            }
+
+            .product-image-wrapper, .loading-image {
+                height: 200px;
+            }
+
+            .product-name {
+                font-size: 13px;
+                height: 38px;
+            }
+
+            .product-price {
+                font-size: 16px;
+            }
+
+            .product-old-price,
+            .product-discount {
+                font-size: 11px;
+            }
+
+            .product-rating i {
+                font-size: 11px;
+            }
+
+            .product-rating span, .product-sold {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-card, .loading-card {
+                width:48%;
+            }
+
+            .product-image-wrapper, .loading-image {
+                height: 160px;
+            }
+
+            .product-name {
+                font-size: 12px;
+                height: 36px;
+            }
+
+            .product-price {
+                font-size: 14px;
+            }
+
+            .product-old-price,
+            .product-discount {
+                font-size: 10px;
+            }
+
+            .product-rating i {
+                font-size: 10px;
+            }
+
+            .product-rating span, .product-sold {
+                font-size: 10px;
+            }
+        }
+
+header {
+            background: #dddddd;
+            padding:8px 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left:0;
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .shop-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .shop-logo i {
+            color: white;
+            font-size: 26px;
+            animation: pulse 2s infinite;
+        }
+
+        .shop-name {
+            color: white;
+            font-size: 22px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-container {
+            flex-grow: 1;
+            margin: 0 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 6px 40px 6px 40px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            background: white;
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 8px rgba(248, 86, 6, 0.5);
+        }
+
+        .search-mic {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f85606;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-mic:hover {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f85606;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .search-icon:hover {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #fff;
+            color: #f85606;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        
+        @media (max-width: 768px) {
+        header {
+        padding: 8px 10px;
+        }
+        
+        .shop-name {
+        font-size: 18px;
+        }
+        
+        .search-input {
+        font-size: 13px;
+        padding: 7px 35px 7px 35px;
+        }
+        
+        .shop-logo i {
+        font-size: 22px;
+        }
+        
+        .action-btn {
+        font-size: 18px;
+        }
+        }
+    </style>
+</head>
+<body>
+
+
+<header>
+        <div class="shop-logo">
+          <i class="fa-light fa-less-than"></i>
+            <div class="shop-name">Daazo</div>
+        </div>
+        <div class="search-container">
+            <i class="fas fa-microphone search-mic" title="Voice Search"></i>
+            <a href="#" ><input type="text" class="search-input" placeholder="Search in Daazo"></a>
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="action-buttons">
+           <a href="cart.html" > <div class="action-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div></a>
+            
+        </div>
+ </header>
+
+
+
+    <div class="product-container" id="productContainer"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showLoadingAnimation();
+            loadGiftItemsProducts(); // Load only gift items products
+        });
+
+        function showLoadingAnimation() {
+            const container = document.getElementById('productContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                const loadingCard = document.createElement('div');
+                loadingCard.className = 'loading-card';
+                loadingCard.innerHTML = `
+                    <div class="loading-image"></div>
+                    <div class="loading-info">
+                        <div class="loading-name"></div>
+                        <div class="loading-price"></div>
+                        <div class="loading-rating"></div>
+                    </div>
+                `;
+                container.appendChild(loadingCard);
+            }
+        }
+
+        function loadGiftItemsProducts() {
+            const container = document.getElementById('productContainer');
+            onValue(ref(db, 'products'), (snapshot) => {
+                container.innerHTML = '';
+                const products = snapshot.val();
+                if (products) {
+                    const productArray = Object.values(products)
+                        .sort((a, b) => b.timestamp - a.timestamp);
+                    const giftItemsProducts = filterProductsByTag(productArray, 'Panjabi'); // Filter for Gift Items
+                    renderProducts(giftItemsProducts); // Render only gift items
+                } else {
+                    container.innerHTML = '<p>No products available.</p>';
+                }
+            }, (error) => {
+                console.error('Error fetching products:', error);
+                container.innerHTML = `<p>Failed to load products: ${error.message}</p>`;
+            });
+        }
+
+        function filterProductsByTag(products, tag) {
+            return products.filter(product => {
+                return product.tags && Array.isArray(product.tags) && product.tags.includes(tag);
+            });
+        }
+
+
+        function renderProducts(productsToRender) {
+            const container = document.getElementById('productContainer');
+            container.innerHTML = '';
+            if (productsToRender.length === 0) {
+                container.innerHTML = '<p>No Gift Items products found.</p>'; // Message for no gift items
+                return;
+            }
+            productsToRender.forEach(product => addProduct(product));
+        }
+
+
+        function addProduct(product) {
+            const container = document.getElementById('productContainer');
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            const stars = generateStars(product.rating);
+            const soldCount = product.soldCount || 0;
+
+            // Use the first image from the images array, with a fallback
+            const primaryImage = product.images && Array.isArray(product.images) && product.images.length > 0 
+            ? product.images[0] 
+            : 'https://via.placeholder.com/260x260?text=Image+Not+Found';
+            
+            card.innerHTML = `
+            <div class="product-image-wrapper">
+            <img src="${primaryImage}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/260x260?text=Image+Not+Found'">
+            </div>
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+                    <div>
+                        <span class="product-price">৳ ${product.price.toFixed(2)}</span>
+                        ${product.originalPrice && product.discount ? `<span class="product-old-price">৳ ${product.originalPrice.toFixed(1)}</span>` : ''}
+                        ${product.discount ? `<span class="product-discount">-${product.discount.toFixed(0)}%</span>` : ''}
+                    </div>
+                    <div class="product-rating">
+                        ${stars}
+                        
+                        <span class="product-sold">${product.stock} sold</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+
+            card.addEventListener('click', () => {
+                window.location.href = `details.html?id=${product.id}`;
+            });
+        }
+
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                if (i < Math.floor(rating)) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i < rating) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+    </script>
+    <script>
+    function getCartCount() {
+    const cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+    return cart.reduce((total, item) => total + parseInt(item.quantity), 0);
+    }
+    
+    function updateCartCountDisplay() {
+    const cartCountSpan = document.querySelector('.cart-count');
+    if (cartCountSpan) {
+    cartCountSpan.textContent = getCartCount();
+    }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+    updateCartCountDisplay();
+    });
+    </script>
+</body>
+</html>

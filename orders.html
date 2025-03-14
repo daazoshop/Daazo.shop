@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - ShopNow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; background: #f1f5f9; color: #1e293b; line-height: 1.6; }
+    .header { background: linear-gradient(135deg, #ff3a8a, #fb82f6); padding:5px; color: #fff; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+    .header-back i { font-size: 24px; cursor: pointer; transition: transform 0.3s; color:#fff;}
+    .header-back i:hover { transform: scale(1.1); }
+    .header-title { font-size: 24px; font-weight: 700; }
+    .orders-container { max-width: 1200px; margin:1px auto; padding: 0 0px; }
+    .order-card { background: #fff; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); overflow: hidden; transition: transform 0.3s; }
+    .order-card:hover { transform: translateY(-5px); }
+    .order-header { background: #dbeafe; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #bfdbfe; }
+    .order-id { font-size: 16px; font-weight: 500; color: #1e40af; }
+    .order-status { font-size: 14px; padding: 5px 15px; border-radius: 20px; font-weight: 500; }
+    .order-status.pending { background: #fef3c7; color: #d97706; }
+    .order-content { padding: 20px; }
+    .order-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #f1f5f9; }
+    .order-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); }
+    .item-details { flex: 1; }
+    .item-name { font-size: 16px; font-weight: 500; margin-bottom: 5px; }
+    .item-meta { font-size: 14px; color: #64748b; }
+    .item-price { font-size: 16px; font-weight: 600; color: #1e40af; }
+    .order-address { margin-top: 15px; font-size: 14px; color: #475569; }
+    .order-address strong { color: #1e293b; }
+    .order-summary { padding: 15px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-size: 16px; font-weight: 600; color: #1e293b; }
+    .order-summary span:last-child { color: #1e40af; }
+    .empty-state { text-align: center; padding: 50px 20px; color: #64748b; }
+    .empty-state i { font-size: 48px; margin-bottom: 20px; color: #94a3b8; }
+    .error-state { text-align: center; padding: 50px 20px; color: #dc2626; }
+    .error-state i { font-size: 48px; margin-bottom: 20px; }
+    @media (max-width: 768px) {
+    .order-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .order-item { flex-direction: column; align-items: flex-start; text-align: center; }
+    .order-item img { margin-bottom: 10px; }
+    }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="header-back"><i class="fas fa-arrow-left"></i></a>
+        <div class="header-title">My Orders</div>
+        <div class="header-icons"></div>
+    </div>
+
+    <div class="orders-container" id="ordersContainer"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsz-82MDaibWnIBUpoykrZHyJW7UMedX8",
+            authDomain: "movies-bee24.firebaseapp.com",
+            databaseURL: "https://movies-bee24-default-rtdb.firebaseio.com",
+            projectId: "movies-bee24",
+            storageBucket: "movies-bee24.appspot.com",
+            messagingSenderId: "1080659811750",
+            appId: "1:1080659811750:web:c1ef7d4dacc3ab17edc367"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+        }
+
+        function renderOrders() {
+            const ordersContainer = document.getElementById('ordersContainer');
+            const localOrders = JSON.parse(localStorage.getItem('orders')) || {};
+
+            // Check if local storage has orders
+            if (!localOrders || Object.keys(localOrders).length === 0) {
+                ordersContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>No orders found in local storage!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Fetch only status from Firebase
+            const ordersRef = ref(db, 'orders');
+            onValue(ordersRef, (snapshot) => {
+                const firebaseData = snapshot.val() || {};
+                let ordersHTML = '';
+
+                try {
+                    // Convert localOrders to an array and sort by timestamp (newest first)
+                    const sortedOrders = Object.entries(localOrders)
+                        .sort(([, a], [, b]) => b.timestamp - a.timestamp); // Sort descending by timestamp
+
+                    sortedOrders.forEach(([orderId, order]) => {
+                        const { address, order: orderDetails, timestamp } = order;
+                        // Get status from Firebase, default to 'Pending' if not found
+                        const status = firebaseData[orderId]?.status || 'Pending';
+
+                        // Validate orderDetails and products
+                        if (!orderDetails || !orderDetails.products || !Array.isArray(orderDetails.products)) {
+                            console.error(`Invalid order data for order ${orderId}:`, order);
+                            return; // Skip this order
+                        }
+
+                        let itemsHTML = '';
+                        orderDetails.products.forEach(item => {
+                            if (!item.name || !item.price || !item.quantity) {
+                                console.warn(`Invalid item in order ${orderId}:`, item);
+                                return;
+                            }
+
+                            itemsHTML += `
+                                <div class="order-item">
+                                    <img src="${item.image || 'https://via.placeholder.com/80'}" alt="${item.name}">
+                                    <div class="item-details">
+                                        <div class="item-name">${item.name}</div>
+                                        <div class="item-meta">Qty: ${item.quantity} | ${item.size || 'N/A'}</div>
+                                        <div class="item-price">৳ ${(item.price * item.quantity).toFixed(2)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        if (!address || !orderDetails.total) {
+                            console.error(`Missing address or total in order ${orderId}:`, order);
+                            return;
+                        }
+
+                        ordersHTML += `
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-id">Order #${orderId.slice(-6)} - ${formatDate(timestamp)}</div>
+                                    <div class="order-status ${status.toLowerCase()}">${status}</div>
+                                </div>
+                                <div class="order-content">
+                                    ${itemsHTML}
+                                    <div class="order-address">
+                                        <strong>Delivery to:</strong> ${address.name}<br>
+                                        ${address.phone}<br>
+                                        ${address.address}, ${address.upazila}, ${address.district}, ${address.division}
+                                    </div>
+                                </div>
+                                <div class="order-summary">
+                                    <span>Total</span>
+                                    <span>৳ ${orderDetails.total.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    ordersContainer.innerHTML = ordersHTML || `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No valid orders found in local storage!</p>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Error rendering orders:', error);
+                    ordersContainer.innerHTML = `
+                        <div class="error-state">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Something went wrong while loading your orders.</p>
+                        </div>
+                    `;
+                }
+            }, (error) => {
+                console.error('Firebase error:', error);
+                ordersContainer.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to connect to Firebase. Showing local data only.</p>
+                    </div>
+                `;
+            });
+        }
+
+        // For testing: Save sample data to local storage (you can remove this in production)
+        function saveSampleDataToLocalStorage() {
+            const sampleOrders = {
+                "order1": {
+                    address: {
+                        name: "John Doe",
+                        phone: "1234567890",
+                        address: "123 Street",
+                        upazila: "Upazila",
+                        district: "District",
+                        division: "Division"
+                    },
+                    order: {
+                        products: [
+                            { name: "Product 1", price: 100, quantity: 2, image: "https://via.placeholder.com/80" },
+                            { name: "Product 2", price: 50, quantity: 1, image: "https://via.placeholder.com/80" }
+                        ],
+                        total: 250
+                    },
+                    timestamp: Date.now() - 100000 // Older order
+                },
+                "order2": {
+                    address: {
+                        name: "Jane Doe",
+                        phone: "0987654321",
+                        address: "456 Avenue",
+                        upazila: "Upazila2",
+                        district: "District2",
+                        division: "Division2"
+                    },
+                    order: {
+                        products: [
+                            { name: "Product 3", price: 200, quantity: 1, image: "https://via.placeholder.com/80" }
+                        ],
+                        total: 200
+                    },
+                    timestamp: Date.now() // Newer order
+                }
+            };
+            localStorage.setItem('orders', JSON.stringify(sampleOrders));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Uncomment the line below to test with sample data
+            // saveSampleDataToLocalStorage();
+            renderOrders();
+        });
+    </script>
+</body>
+</html>
