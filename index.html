@@ -169,30 +169,36 @@
         /*banner section */
         
         
+         /*Banner Section Styles */
         .banner-section {
         position: relative;
         width: 100%;
-        height: 160px;
+        /* min-height: 300px;  Height remove kora holo jate image er height er sathe container adjust korte pare */
         overflow: hidden;
         background: #f5f5f5;
-        top:20px;
+        top: 20px;
         }
         
         .banner-slider {
         display: flex;
-        height: 100%;
+        width: 100%;
         transition: transform 0.5s ease;
+        /* height: auto; eta add korar dorkar nei, default value 'auto' e thakbe jeta content er height er sathe adjust kore */
         }
         
         .banner-slide {
-        height: 100%;
-        width:100%;
-        background-size: auto 100%; /* Height matches container, width scales proportionally */
+        width: 100%;
+        /* height: 0;  Height 0 set kora holo */
+        padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100). আপনার ইমেজের aspect ratio অনুযায়ী এই মান পরিবর্তন করতে পারেন */
+        background-size:contain; /* 'cover' use kora holo jate image container er sompurno area cover kore, faka jaga na thake */
         background-position: center;
-        background-repeat: no-repeat; /* Prevents tiling */
+        background-repeat: no-repeat;
         position: relative;
-        flex: 1 0 100%;
+        flex: 1 0 100%; /* Important for slider functionality */
+        box-sizing: border-box; /* Padding যেন width এবং height এর মধ্যে অন্তর্ভুক্ত থাকে */
+        /* min-height: 300px; Height remove kora holo */
         }
+        
         .banner-slide::before {
         content: '';
         position: absolute;
@@ -200,7 +206,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent);
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent); /* Optional: Gradient overlay */
         }
         
         .banner-dots {
@@ -227,12 +233,12 @@
         background: #f85606;
         transform: scale(1.2);
         }
-
-        /* Animation */
+        
+        /* Animation (Optional) */
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
         }
         
         
